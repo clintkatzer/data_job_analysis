@@ -13,7 +13,8 @@ SELECT
     skills_dim.skill_id,
     skills_dim.skills,
     COUNT(skills_job_dim.job_id) AS demand_count,
-    percentile_cont(.5) WITHIN GROUP (ORDER BY salary_year_avg) AS median_salary
+    percentile_cont(.5) WITHIN GROUP (ORDER BY salary_year_avg) AS median_salary,
+    ROUND(AVG(salary_year_avg),0) AS avg_salary
 FROM job_postings_fact
 INNER JOIN 
     skills_job_dim ON

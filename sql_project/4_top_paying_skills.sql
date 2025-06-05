@@ -7,7 +7,8 @@ and helps identify the most financially rewarded skills
 
 SELECT 
     skills,
-    percentile_cont(.5) WITHIN GROUP (ORDER BY salary_year_avg) AS median_salary
+    percentile_cont(.5) WITHIN GROUP (ORDER BY salary_year_avg) AS median_salary,
+    ROUND(AVG(salary_year_avg),0) AS avg_salary
 FROM
     job_postings_fact
 INNER JOIN 
