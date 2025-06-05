@@ -1,5 +1,5 @@
 /* What are the top skills based on salary?
---Look at the average salary associated with each skill
+--Look at the median salary associated with each skill
 --Focus on roles with specified salaries
 --Why? Indicative of how different skills impact salary level
 and helps identify the most financially rewarded skills
@@ -7,7 +7,7 @@ and helps identify the most financially rewarded skills
 
 SELECT 
     skills,
-    ROUND(AVG(salary_year_avg),0) AS avg_salary
+    percentile_cont(.5) WITHIN GROUP (ORDER BY salary_year_avg) AS median_salary
 FROM
     job_postings_fact
 INNER JOIN 
@@ -23,6 +23,6 @@ WHERE
 GROUP BY
     skills
 ORDER BY
-    avg_salary DESC
+    median_salary DESC
 
 LIMIT 25

@@ -1,7 +1,7 @@
 /* What are the most optimal skills to learn? 
 (high demand and high-paying skill)
 --Identify skills in high demand and associated with 
-high average salaries for Data Analyst roles
+high median salaries for Data Analyst roles
 -- Concentrates on remote positions with specified salaries
 -- Why? Targets skills that offer job security (high demand) and 
 financial benefits (high salaries),
@@ -13,7 +13,7 @@ SELECT
     skills_dim.skill_id,
     skills_dim.skills,
     COUNT(skills_job_dim.job_id) AS demand_count,
-    ROUND(AVG(job_postings_fact.salary_year_avg),0) AS avg_salary
+    percentile_cont(.5) WITHIN GROUP (ORDER BY salary_year_avg) AS median_salary
 FROM job_postings_fact
 INNER JOIN 
     skills_job_dim ON
@@ -30,7 +30,7 @@ GROUP BY
 HAVING  
     COUNT(skills_job_dim.job_id)>10
 ORDER BY
-    avg_salary DESC,
+    median_salary DESC,
     demand_count DESC
 LIMIT 25;
 
